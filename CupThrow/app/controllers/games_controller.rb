@@ -11,6 +11,12 @@ class GamesController < ApplicationController
             return
         end
 
+        # throwing cup on table
+        if params[:commit] == "Throw 1" || params[:commit] == "Throw 2" || params[:commit] == "Throw 3"
+            throw_cup
+            return
+        end
+
         @game = Game.new
 
         # define the player in this game
@@ -27,7 +33,7 @@ class GamesController < ApplicationController
 
         # create actual ruby Player for the game and fill starting Bag
         p = GamePlayer.new(@current_player.username)
-        fill_bag(p)
+        fill_bag_initial(p)
         puts("HERE IS THE BAG")
         puts(p.print_bag)
         @current_player.bag_desc = p.print_bag
@@ -61,7 +67,7 @@ class GamesController < ApplicationController
         # generate random tally OR sum
         # generate random descriptions of random number of coins
         # generate random descriptions of random number of dice
-        # concatenate into string like {{}}
+        # concatenate into string
         return '{
             "scoring":"tally",
             "1":{
@@ -85,20 +91,25 @@ class GamesController < ApplicationController
     end
 
     private
-    def fill_bag(game_player)
-        # provided with three quarters and three six-sided white dice
-        factory = RandomizerFactory.new()
-        game_player.store(factory.create_coin(0.25))
-        game_player.store(factory.create_coin(0.25))
-        game_player.store(factory.create_coin(0.25))
-        game_player.store(factory.create_die(6, :white))
-        game_player.store(factory.create_die(6, :white))
-        game_player.store(factory.create_die(6, :white))
-    end
-
-    private
-    def load_cup
+    def load_cup()
         puts('LOADING PLAYER CUP FROM BAG')
+        num_coins = params['game']['num_coins']
+        num_dice = params['game']['num_dice']
+        player = Player.find(params[:id])
+
+        # make new gameplayer
+        p = GamePlayer.new(player.username)
+
+        # fill bag with contents based on bag_desc
+        fill_bag(p, bag_json)
+        puts('bag after fill')
+        puts(game_player.print_bag)
+
+        # load cup with all items from bag lol
+        p.load({item: :coin})
+        p.load({item: :die})
+
+        # generate 3 throws, store in player
     end
 
     private
@@ -110,5 +121,31 @@ class GamesController < ApplicationController
     def calc_score(desc)
         puts('CALCULATING SCORE...')
         4
+    end
+
+    private
+    def fill_bag_initial(game_player)
+        # provided with three quarters and three six-sided white dice
+        factory = RandomizerFactory.new()
+        game_player.store(factory.create_coin(0.25))
+        game_player.store(factory.create_coin(0.25))
+        game_player.store(factory.create_coin(0.25))
+        game_player.store(factory.create_die(6, :white))
+        game_player.store(factory.create_die(6, :white))
+        game_player.store(factory.create_die(6, :white))
+    end
+
+    private
+    def fill_bag(game_player, bag)
+        # provided with three quarters and three six-sided white dice
+        factory = RandomizerFactory.new()
+        bag.each do |key,value|
+            if value['item'] == ':coin'
+                game_player.store(factory.create_coin(value['denomination']))
+            else
+                game_player.store(factory.create_die(value['sides'], value['colour']))
+            end
+
+        end
     end
 end
