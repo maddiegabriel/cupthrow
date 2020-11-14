@@ -1,0 +1,70 @@
+<h1>Welcome to CupThrow</h1>
+<h2><i>The cup-throwing game for all ages!</i></h3>
+<br><hr><br>
+
+<h3>Sign In:</h3>
+<%= form_with scope: :player, url: players_path, local: true do |form| %>
+    <% if @player && @player.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(@player.errors.count, "error") %> stopped you from signing up:
+        </h2>
+        <ul>
+          <% @player.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <p>
+      <%= form.label :Email %><br>
+      <%= form.text_field :email %>
+    </p>
+   
+    <p>
+      <%= form.label :Password %><br>
+      <%= form.text_field :password %>
+    </p>
+   
+    <p>
+      <%= form.submit :'Sign In'%>
+    </p>
+<% end %>
+<br><hr><br>
+
+<h3>Sign Up:</h3>
+<%= form_with scope: :player, url: players_path, local: true do |form| %>
+    <% if @player && @player.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(@player.errors.count, "error") %> stopped you from signing up:
+        </h2>
+        <ul>
+          <% @player.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <p>
+      <%= form.label :Username %><br>
+      <%= form.text_field :username %>
+    </p>
+   
+    <p>
+      <%= form.label :Email %><br>
+      <%= form.text_field :email %>
+    </p>
+
+    <p>
+      <%= form.label :Password %><br>
+      <%= form.text_field :password %>
+    </p>
+
+    <p>
+      <%= form.submit :'Create Account'%>
+    </p>
+<% end %>
+<br><hr><br>

@@ -1,23 +1,12 @@
-# README
+# CIS*3260 Assignment 2b: CupThrow
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+By: Maddie Gabriel (0927580)
 
-Things you may want to cover:
-
-* Ruby version
+* How to run my game
 
 * System dependencies
 
 * Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
 

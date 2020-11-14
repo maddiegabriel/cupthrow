@@ -13,3 +13,23 @@
  *= require_tree .
  *= require_self
  */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px 30px;
+    background-color: azure;
+}
+
+h2 {
+    color: grey;
+    margin-top: -10px;
+}
+
+.cointable {
+    margin-left: 40px;
+    border-spacing: 15px;
+    border: 1px solid black;
+}
+
+.tabbed {
+    margin-left: 40px;
+}

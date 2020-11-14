@@ -1,0 +1,24 @@
+<h1>Welcome to CupThrow</h1>
+<h2><i>The cup-throwing game for all ages!</i></h3>
+<br>
+<%= link_to "Click to Enter Game", first_route_path %>
+<br><br><br><hr><br><br><br>
+<h2>Listing All Players</h2>
+ 
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Password</th>
+    <th></th>
+  </tr>
+ 
+  <% @players.each do |player| %>
+    <tr>
+      <td><%= player.email %></td>
+      <td><%= player.password %></td>
+      <td><%= link_to 'Delete Account', player_path(player),
+            method: :delete,
+            data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>

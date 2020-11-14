@@ -1,0 +1,75 @@
+
+<h1><%= @player.username %>'s Player Page</h1>
+
+<br>
+
+<p>
+<strong>Username:</strong>
+<%= @player.username %>
+</p>
+
+<p>
+<strong>Email:</strong>
+<%= @player.email %>
+</p>
+
+<p>
+<strong>Overall Points:</strong>
+<%= @player.points %>
+</p>
+
+<p>
+<strong>Gem Count:</strong>
+<%= @player.gems %>
+</p>
+
+<p>
+<strong>Bag Contents:</strong><br>
+  <% bag = JSON.parse(@player.bag_desc) %>
+  <br><strong class="tabbed">Coins</strong>
+  <table class="cointable">
+      <tr>
+          <th>Denomination</th>
+      </tr>
+      <% bag.each do |key,value| %>
+          <% if value['item'] == ":coin" %>
+              <tr>
+                  <td><%= value['denomination'] -%></td> 
+              </tr>
+          <% end %> 
+      <% end %>
+  </table>
+
+  <br><strong class="tabbed">Dice</strong>
+  <table class="cointable">
+      <tr>
+          <th>Colour</th>
+          <th>Sides</th>
+      </tr>
+      <% bag.each do |key,value| %>
+          <% if value['item'] == ":die" %>
+              <tr>
+                  <td><%= value['colour'] -%></td> 
+                  <td><%= value['sides'] -%></td> 
+              </tr>
+          <% end %> 
+      <% end %>
+  </table>
+</p>
+
+<br>
+
+<br>
+<%= form_with scope: :game, url: games_path, local: true do |form| %>
+    <%= hidden_field_tag(:id, @player.id) %>
+    <p>
+      <%= form.submit :'Play a Game'%>
+    </p>
+<% end %>
+<br><br>
+Purchase Items
+<br><br>
+<td><%= link_to 'Sign Out', players_new_path %></td><br><br>
+<td><%= link_to 'Delete Account', player_path(@player),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>

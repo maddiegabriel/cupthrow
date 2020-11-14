@@ -1,0 +1,106 @@
+<%
+    @current_player = Player.find(@game.player_id)
+    goal_description = JSON.parse(@game.goal_description)
+    i = 0
+%>
+
+<h1><%= link_to @current_player.username, player_path(@current_player) %>'s New Game of CupThrow!</h1>
+<br><br><hr><br><br>
+
+<h2>Goal of this Game</h2>
+<h3>Scoring Strategy: <%= goal_description["scoring"] %></h3>
+<h3>Coins: </h3>
+<table class="cointable">
+    <tr>
+        <th>Denomination</th>
+        <th>Side Up</th>
+        <th></th>
+    </tr>
+    <% goal_description.each do |key,value| %>
+        <% if value['item'] == ":coin" %>
+            <tr>
+                <td><%= value['denomination'] -%></td> 
+                <td><%= value['up'] -%></td>
+            </tr>
+        <% end %> 
+    <% end %>
+</table>
+
+<h3>Dice: </h3>
+<table class="cointable">
+    <tr>
+        <th>Colour</th>
+        <th>Sides</th>
+        <th>Side Up</th>
+        <th></th>
+    </tr>
+    <% goal_description.each do |key,value| %>
+        <% if value['item'] == ":die" %>
+            <tr>
+                <td><%= value['colour'] -%></td> 
+                <td><%= value['sides'] -%></td> 
+                <td><%= value['up'] -%></td>
+            </tr>
+        <% end %> 
+    <% end %>
+</table>
+
+
+<br><br><hr><br><br>
+
+<h2><%= @current_player.username %>'s Bag Contents:</h2>
+<% bag = JSON.parse(@current_player.bag_desc) %>
+<br><strong class="tabbed">Coins</strong>
+<table class="cointable">
+    <tr>
+        <th>Denomination</th>
+    </tr>
+    <% bag.each do |key,value| %>
+        <% if value['item'] == ":coin" %>
+            <tr>
+                <td><%= value['denomination'] -%></td> 
+            </tr>
+        <% end %> 
+    <% end %>
+</table>
+
+<br><strong class="tabbed">Dice</strong>
+<table class="cointable">
+    <tr>
+        <th>Colour</th>
+        <th>Sides</th>
+    </tr>
+    <% bag.each do |key,value| %>
+        <% if value['item'] == ":die" %>
+            <tr>
+                <td><%= value['colour'] -%></td> 
+                <td><%= value['sides'] -%></td> 
+            </tr>
+        <% end %> 
+    <% end %>
+</table>
+
+<br><br><hr><br><br>
+
+<h2>Load your Cup</h2>
+<%= form_with scope: :game, url: games_path, local: true do |form| %>
+    <p>
+        <%= form.label :'Number of Coins' %><br>
+        <%= form.text_field :coins %>
+    </p>
+    <p>
+        <%= form.label :'Number of Dice' %><br>
+        <%= form.text_field :'dice' %>
+    </p>
+    <p>
+      <%= form.submit :'Load'%>
+    </p>
+<% end %>
+
+<br><br><br><h2>Throw your Cup</h2><br>
+<br><br><hr><br><br>
+<h2>Scores for this game</h2><br>
+<h3>Goal Score: <%= @game.goal_score %></h3>
+<h3><%= @current_player.username %>'s Score: <%= @game.player_score %></h3>
+<h3>Computer's Score: <%= @game.server_score %></h3>
+<br>

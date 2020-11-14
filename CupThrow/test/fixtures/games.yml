@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  goal_description: MyString
+  server_throw: MyString
+  player_id: 1
+  player_score: 1
+  server_score: 1
+
+two:
+  goal_description: MyString
+  server_throw: MyString
+  player_id: 1
+  player_score: 1
+  server_score: 1
