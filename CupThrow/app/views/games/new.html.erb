@@ -5,15 +5,16 @@
 
 
 
-<h1><%= link_to @current_player.username, player_path(@current_player) %>'s New Game of CupThrow!</h1>
-<br><br><hr><br><br>
+<h1>Play Game</h1>
+<h2>Hey <%= link_to @current_player.username, player_path(@current_player) %> - welcome to  CupThrow!
+<br><br><hr><br>
 
 
 
 
 <h2>Goal of this Game</h2>
 <strong>Scoring Strategy:</strong> <%= goal_description["scoring"] %>
-<br><br><strong>Coins: </strong>
+<br><br><strong>Goal Coins: </strong>
 <table class="cointable">
     <tr>
         <th>Denomination</th>
@@ -30,7 +31,7 @@
     <% end %>
 </table>
 
-<br><strong>Dice: </strong>
+<br><strong>Goal Dice: </strong>
 <table class="cointable">
     <tr>
         <th>Colour</th>
@@ -97,21 +98,30 @@
     <%= hidden_field_tag(:id, @current_player.id) %>
     <p><strong>Coin Characteristics:</strong></p>
     <p>
+        <%= form.label :'Load coins? ' %>
+        <%= form.select :order, ["Yes","No"] %>
+    </p>
+    <p>
         <%= form.label :'Denomination: ' %>
-        <%= form.select :order, ["","Nickel", "Dime", "Quarter", "Loonie", "Toonie"] %>
+        <%= form.select :order, ["","Any Denomination","Nickel", "Dime", "Quarter", "Loonie", "Toonie"] %>
     </p>
     
-    <p><strong>Dice Characteristics:</strong></p>
+    <br><p><strong>Dice Characteristics:</strong></p>
+    <p>
+        <%= form.label :'Load dice? ' %>
+        <%= form.select :order, ["Yes","No"] %>
+    </p>
     <p>
         <%= form.label :'Colour: ' %>
-        <%= form.select :order, ["Red", "Yellow", "Green", "Blue", "Black", "White"] %>
+        <%= form.select :order, ["","Any Colour","Red", "Yellow", "Green", "Blue", "Black", "White"] %>
     </p>
     <p>
-        <%= form.label :'Sides: ' %>
-        <%= form.select :order, ["","1 side", "2 sides", "3 sides", "4 sides", "5 sides"] %>
+        <%= form.label :'Sides:' %>
+        <%= form.select :order, ["","Any sides","1 side", "2 sides", "3 sides", "4 sides", "5 sides"] %>
     </p>
     <p>
-      <%= form.submit :'Load'%>
+      <%= form.submit :'Load' %>
+      
     </p>
 <% end %>
 
@@ -119,7 +129,7 @@
 
 
 
-<br><br><br><h2>Throw your Cup</h2>
+<br><br><hr><br><br><br><h2>Throw your Cup</h2>
 <%= form_with scope: :game, url: games_path, local: true do |form| %>
     <%= hidden_field_tag(:id, @current_player.id) %>
     <p>
@@ -149,3 +159,11 @@
 <h3><%= @current_player.username %>'s Score: <%= @game.player_score %></h3>
 <h3>Computer's Score: <%= @game.server_score %></h3>
 <br>
+<br><br><hr><br><br>
+<h2>Start a New Game</h2>
+<%= form_with scope: :game, url: games_path, local: true do |form| %>
+    <%= hidden_field_tag(:id, @current_player.id) %>
+    <p>
+      <%= form.submit :'Start new Game'%>
+    </p>
+<% end %>

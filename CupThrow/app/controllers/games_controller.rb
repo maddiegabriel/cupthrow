@@ -65,56 +65,291 @@ class GamesController < ApplicationController
     private
     def random_goal
         # generate random tally OR sum
+        rando = rand(1..10)
         # generate random descriptions of random number of coins
         # generate random descriptions of random number of dice
         # concatenate into string
-        return '{
-            "scoring":"tally",
-            "1":{
-               "item":":coin",
-               "denomination":0.25,
-               "up":":H"
-            },
-            "2":{
-               "item":":die",
-               "sides":6,
-               "colour":":white",
-               "up":4
-            },
-            "3":{
-               "item":":die",
-               "sides":6,
-               "colour":":white",
-               "up":5
-            }
-         }'
+        case rando
+        when 1
+            return '{
+                "scoring":"tally",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":H"
+                },
+                "2":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":4
+                },
+                "3":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":3
+                }
+             }'
+        when 2
+            return '{
+                "scoring":"sum",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":6
+                }
+             }'
+        when 3
+            return '{
+                "scoring":"tally",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                    "item":":coin",
+                    "denomination":0.25,
+                    "up":":H"
+                 },
+                "3":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":4
+                },
+                "4":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":5
+                }
+             }'
+        when 4
+            return '{
+                "scoring":"sum",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                    "item":":coin",
+                    "denomination":0.25,
+                    "up":":H"
+                 },
+                 "3":{
+                    "item":":coin",
+                    "denomination":0.25,
+                    "up":":H"
+                 },
+                "4":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":2
+                },
+                "5":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":5
+                }
+             }'
+        when 5
+            return '{
+                "scoring":"sum",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                    "item":":coin",
+                    "denomination":0.25,
+                    "up":":H"
+                 },
+                 "3":{
+                    "item":":coin",
+                    "denomination":0.25,
+                    "up":":H"
+                 },
+                "4":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":3
+                },
+                "5":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":6
+                },
+                "6":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":2
+                }
+             }'
+        when 6
+            return '{
+                "scoring":"tally",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":3
+                },
+                "3":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":2
+                },
+                "4":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":1
+                }
+             }'
+        when 7
+            return '{
+                "scoring":"sum",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                    "item":":coin",
+                    "denomination":0.25,
+                    "up":":H"
+                 },
+                "3":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":4
+                },
+                "4":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":1
+                }
+             }'
+        when 8
+            return '{
+                "scoring":"tally",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":4
+                },
+                "3":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":4
+                }up":4
+                }
+             }'
+        when 9
+            return '{
+                "scoring":"tally",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":1
+                }
+             }'
+        else
+            return '{
+                "scoring":"sum",
+                "1":{
+                   "item":":coin",
+                   "denomination":0.25,
+                   "up":":T"
+                },
+                "2":{
+                   "item":":die",
+                   "sides":6,
+                   "colour":":white",
+                   "up":1
+                }
+             }'
+        end
     end
 
     private
     def load_cup()
         puts('LOADING PLAYER CUP FROM BAG')
-        num_coins = params['game']['num_coins']
-        num_dice = params['game']['num_dice']
         player = Player.find(params[:id])
 
-        # make new gameplayer
-        p = GamePlayer.new(player.username)
+        # make 3 copies of new gameplayer
+        p1 = GamePlayer.new(player.username)
+        p2 = GamePlayer.new(player.username)
+        p3 = GamePlayer.new(player.username)
 
-        # fill bag with contents based on bag_desc
-        fill_bag(p, bag_json)
-        puts('bag after fill')
-        puts(game_player.print_bag)
+        # fill each bag with contents of bag_desc
+        bag_json = JSON.parse(player.bag_desc)
+        fill_bag(p1, bag_json)
+        fill_bag(p2, bag_json)
+        fill_bag(p3, bag_json)
 
-        # load cup with all items from bag lol
-        p.load({item: :coin})
-        p.load({item: :die})
+        # load each cup with all items from bag
+        p1.load({item: :coin})
+        p1.load({item: :die})
+        p2.load({item: :coin})
+        p2.load({item: :die})
+        p3.load({item: :coin})
+        p3.load({item: :die})
+
+        # empty player's bag since they loaded everything
+        player.bag_desc = ""
 
         # generate 3 throws, store in player
+        p1.throw
+        p2.throw
+        p3.throw
+        
+        # calculate scores (sum or tally) for each throw
+        # score_throw1
+
+        # store the highest score
     end
 
     private
     def throw_cup
         puts('THROWING PLAYER CUP')
+        # just show the 3 scores
     end
 
     private
