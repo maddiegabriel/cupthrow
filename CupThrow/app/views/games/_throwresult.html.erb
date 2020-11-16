@@ -1,0 +1,39 @@
+<strong>Throw 1 score: </strong>
+    <table>
+        <td>
+            <table class="cointable">
+                <tr>
+                    <th>Coin</th>
+                    <th>Side Up</th>
+                    <th></th>
+                </tr>
+                <% throw_description["throw1"].each do |key,value| %>
+                    <% if value['item'] == ":coin" %>
+                        <tr>
+                            <td><%= value['denomination'] -%></td> 
+                            <td><%= value['up'] -%></td>
+                        </tr>
+                    <% end %> 
+                <% end %>
+            </table>
+        </td>
+        <td>
+        <table class="cointable">
+            <tr>
+                <th>Sides</th>
+                <th>Colour</th>
+                <th>Side Up</th>
+                <th></th>
+            </tr>
+            <% throw_description["throw1"].each do |key,value| %>
+                <% if value['item'] == ":die" %>
+                    <tr>
+                        <td><%= value['sides'] -%></td> 
+                        <td><%= value['colour'] -%></td> 
+                        <td><%= value['up'] -%></td>
+                    </tr>
+                <% end %> 
+            <% end %>
+        </table>
+    </td>
+    </table>

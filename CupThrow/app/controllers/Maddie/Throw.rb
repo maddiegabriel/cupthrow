@@ -73,4 +73,16 @@ class Throw
         self.return_items
     end
 
+    # return a description of all the items in this throw
+    def items_to_string()
+        desc = "{"
+        @items.each_with_index do |item, index|
+            desc += "\"#{index}\":#{item.to_string}"
+            if (@items.length - 1) != index
+                desc += ","
+            end
+        end
+        desc += "}"
+        return desc
+    end
  end

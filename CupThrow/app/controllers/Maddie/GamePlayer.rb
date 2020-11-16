@@ -85,6 +85,10 @@ class GamePlayer
         @cup.items_to_string
     end
 
+    def print_throw()
+        @table_throws[0].items_to_string
+    end
+
     # just print all the items in the bag
     def print_table()
         desc = []

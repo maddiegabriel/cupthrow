@@ -20,15 +20,65 @@ body {
 }
 
 h2 {
-    color: grey;
+    color: rgb(121, 121, 121);
     margin-top: -10px;
 }
 
 .cointable {
     border-spacing: 15px;
     border: 1px solid black;
+    background-color: white;
 }
 
 .tabbed {
     margin-left: 40px;
+}
+
+.button {
+    width: 220px;
+    height: 80px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-size: 27px;
+    background-color: greenyellow;
+    border-radius: 5px;
+}
+
+.loadbutton {
+    width: 80px;
+    height: 40px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-size: 15px;
+    background-color: rgb(252, 181, 208);
+    border-radius: 3px; 
+}
+
+.throwbutton {
+    width: 120px;
+    height: 60px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-size: 17px;
+    background-color: rgb(107, 248, 154);
+    border-radius: 3px; 
+}
+
+.deletebutton {
+    padding: 20px 0px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-size: 20px;
+    color: red;
+}
+
+.signoutbutton {
+    padding: 20px 0px;
+    font-family: Arial, Helvetica, sans-serif;  
+    font-size: 20px;
+    color: rgb(252, 164, 49);
+}
+
+.results {
+    font-size: 20px;
+}
+
+.start {
+    font-size: 20px;
 }

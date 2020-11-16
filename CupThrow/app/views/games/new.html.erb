@@ -1,18 +1,13 @@
 <%
-    @current_player = Player.find(@game.player_id)
+    current_player = Player.find(@game.player_id)
     goal_description = JSON.parse(@game.goal_description)
 %>
 
-
-
 <h1>Play Game</h1>
-<h2>Hey <%= link_to @current_player.username, player_path(@current_player) %> - welcome to  CupThrow!
-<br><br><hr><br>
+<h2>Hey <%= link_to current_player.username, player_path(current_player) %> - welcome to  CupThrow!
+<br><br><br><hr><br>
 
-
-
-
-<h2>Goal of this Game</h2>
+<h2>Goal of this Game</h2><br>
 <strong>Scoring Strategy:</strong> <%= goal_description["scoring"] %>
 <br><br><strong>Goal Coins: </strong>
 <table class="cointable">
@@ -49,53 +44,54 @@
         <% end %> 
     <% end %>
 </table>
-
-
-<br><br><hr><br><br>
-
+<br><br><br><hr><br><br><br>
 
 
 
-
-
-<h2>Your Bag Contents:</h2>
-<% bag = JSON.parse(@current_player.bag_desc) %>
-<br><strong>Coins</strong>
-<table class="cointable">
-    <tr>
-        <th>Denomination</th>
-    </tr>
-    <% bag.each do |key,value| %>
-        <% if value['item'] == ":coin" %>
+<h2>Your Bag Contents</h2>
+<% bag = JSON.parse(current_player.bag_desc) %>
+<table>
+    <td>
+        <br><strong>Coins</strong>
+        <table class="cointable">
             <tr>
-                <td><%= value['denomination'] -%></td> 
+                <th>Denomination</th>
             </tr>
-        <% end %> 
-    <% end %>
+            <% bag.each do |key,value| %>
+                <% if value['item'] == ":coin" %>
+                    <tr>
+                        <td><%= value['denomination'] -%></td> 
+                    </tr>
+                <% end %> 
+            <% end %>
+        </table>
+    </td>
+    <td>
+        <br><strong>Dice</strong>
+        <table class="cointable">
+            <tr>
+                <th>Colour</th>
+                <th>Sides</th>
+            </tr>
+            <% bag.each do |key,value| %>
+                <% if value['item'] == ":die" %>
+                    <tr>
+                        <td><%= value['colour'] -%></td> 
+                        <td><%= value['sides'] -%></td> 
+                    </tr>
+                <% end %> 
+            <% end %>
+        </table>
+    </td>
 </table>
 
-<br><strong>Dice</strong>
-<table class="cointable">
-    <tr>
-        <th>Colour</th>
-        <th>Sides</th>
-    </tr>
-    <% bag.each do |key,value| %>
-        <% if value['item'] == ":die" %>
-            <tr>
-                <td><%= value['colour'] -%></td> 
-                <td><%= value['sides'] -%></td> 
-            </tr>
-        <% end %> 
-    <% end %>
-</table>
-
-<br><br><hr><br><br>
+<br><br><br><hr><br><br><br>
 
 <h2>Load your Cup</h2>
-
+<p>Select which kinds of items you want to load from your bag into your cup!</p><br>
 <%= form_with scope: :game, url: games_path, local: true do |form| %>
-    <%= hidden_field_tag(:id, @current_player.id) %>
+    <%= hidden_field_tag(:id, current_player.id) %>
+    <%= hidden_field_tag(:game_id, @game.id) %>
     <p><strong>Coin Characteristics:</strong></p>
     <p>
         <%= form.label :'Load coins? ' %>
@@ -118,52 +114,192 @@
     <p>
         <%= form.label :'Sides:' %>
         <%= form.select :order, ["","Any sides","1 side", "2 sides", "3 sides", "4 sides", "5 sides"] %>
-    </p>
+    </p><br>
     <p>
-      <%= form.submit :'Load' %>
-      
+        <%= form.submit :'Load', :class => "loadbutton" %>
     </p>
 <% end %>
 
-
-
-
-
+<%
+    if current_player.throw_desc
+        throw_description = JSON.parse(current_player.throw_desc)
+    end
+    if @game.server_throw
+        throw_scores = JSON.parse(@game.server_throw)
+    end
+%>
 <br><br><hr><br><br><br><h2>Throw your Cup</h2>
-<%= form_with scope: :game, url: games_path, local: true do |form| %>
-    <%= hidden_field_tag(:id, @current_player.id) %>
+<p>You can throw your cup up to 3 times! Your best throw will be used for scoring.
+<br><%= form_with scope: :game, url: games_path, local: true do |form| %>
+    <%= hidden_field_tag(:id, current_player.id) %>
+    <%= hidden_field_tag(:game_id, @game.id) %>
     <p>
-      <%= form.submit :'Throw 1'%>
+      <%= form.submit :'Throw 1', :class => "throwbutton" %>
     </p>
 <% end %>
-<%= form_with scope: :game, url: games_path, local: true do |form| %>
-    <%= hidden_field_tag(:id, @current_player.id) %>
+<% if current_player.gems >= 2 %>
+    <strong>Throw 1 score: </strong><%= throw_scores["throw1"] %>
+        <table>
+            <td>
+                <table class="cointable">
+                    <tr>
+                        <th>Coin</th>
+                        <th>Side Up</th>
+                        <th></th>
+                    </tr>
+                    <% throw_description["throw1"].each do |key,value| %>
+                        <% if value['item'] == ":coin" %>
+                            <tr>
+                                <td><%= value['denomination'] -%></td> 
+                                <td><%= value['up'] -%></td>
+                            </tr>
+                        <% end %> 
+                    <% end %>
+                </table>
+            </td>
+            <td>
+            <table class="cointable">
+                <tr>
+                    <th>Sides</th>
+                    <th>Colour</th>
+                    <th>Side Up</th>
+                    <th></th>
+                </tr>
+                <% throw_description["throw1"].each do |key,value| %>
+                    <% if value['item'] == ":die" %>
+                        <tr>
+                            <td><%= value['sides'] -%></td> 
+                            <td><%= value['colour'] -%></td> 
+                            <td><%= value['up'] -%></td>
+                        </tr>
+                    <% end %> 
+                <% end %>
+            </table>
+        </td>
+        </table>
+<% end %>
+
+<br><%= form_with scope: :game, url: games_path, local: true do |form| %>
+    <%= hidden_field_tag(:id, current_player.id) %>
+    <%= hidden_field_tag(:game_id, @game.id) %>
     <p>
-      <%= form.submit :'Throw 2'%>
+    <%= form.submit :'Throw 2', :class => "throwbutton" %>
     </p>
 <% end %>
-<%= form_with scope: :game, url: games_path, local: true do |form| %>
-    <%= hidden_field_tag(:id, @current_player.id) %>
+
+<% if current_player.gems >= 3 %>
+    <strong>Throw 2 score: </strong><%= throw_scores["throw2"] %>
+    <table>
+        <td>
+            <table class="cointable">
+                <tr>
+                    <th>Coin</th>
+                    <th>Side Up</th>
+                    <th></th>
+                </tr>
+                <% throw_description["throw2"].each do |key,value| %>
+                    <% if value['item'] == ":coin" %>
+                        <tr>
+                            <td><%= value['denomination'] -%></td> 
+                            <td><%= value['up'] -%></td>
+                        </tr>
+                    <% end %> 
+                <% end %>
+            </table>
+        </td>
+        <td>
+        <table class="cointable">
+            <tr>
+                <th>Sides</th>
+                <th>Colour</th>
+                <th>Side Up</th>
+                <th></th>
+            </tr>
+            <% throw_description["throw2"].each do |key,value| %>
+                <% if value['item'] == ":die" %>
+                    <tr>
+                        <td><%= value['sides'] -%></td> 
+                        <td><%= value['colour'] -%></td> 
+                        <td><%= value['up'] -%></td>
+                    </tr>
+                <% end %> 
+            <% end %>
+        </table>
+    </td>
+    </table>
+<% end %>
+
+<br><%= form_with scope: :game, url: games_path, local: true do |form| %>
+    <%= hidden_field_tag(:id, current_player.id) %>
+    <%= hidden_field_tag(:game_id, @game.id) %>
     <p>
-      <%= form.submit :'Throw 3'%>
+      <%= form.submit :'Throw 3', :class => "throwbutton" %>
     </p>
+<% end %>
+
+<% if current_player.gems == 4 %>
+    <strong>Throw 3 score: </strong><%= throw_scores["throw3"] %>
+    <table>
+        <td>
+            <table class="cointable">
+                <tr>
+                    <th>Coin</th>
+                    <th>Side Up</th>
+                    <th></th>
+                </tr>
+                <% throw_description["throw3"].each do |key,value| %>
+                    <% if value['item'] == ":coin" %>
+                        <tr>
+                            <td><%= value['denomination'] -%></td> 
+                            <td><%= value['up'] -%></td>
+                        </tr>
+                    <% end %> 
+                <% end %>
+            </table>
+        </td>
+        <td>
+        <table class="cointable">
+            <tr>
+                <th>Sides</th>
+                <th>Colour</th>
+                <th>Side Up</th>
+                <th></th>
+            </tr>
+            <% throw_description["throw3"].each do |key,value| %>
+                <% if value['item'] == ":die" %>
+                    <tr>
+                        <td><%= value['sides'] -%></td> 
+                        <td><%= value['colour'] -%></td> 
+                        <td><%= value['up'] -%></td>
+                    </tr>
+                <% end %> 
+            <% end %>
+        </table>
+    </td>
+    </table>
 <% end %>
 
 
 
+<br><br><br><hr><br><br><br><h2>Scores for this game</h2>
+<% if current_player.gems == 4 %>
+<%= render partial: "scores", locals: {player: @game.player_score, server: @game.server_score, goal: @game.goal_score} %>
+    <br><br><br><h2>AND THE WINNER IS...</h2>
+    <p class="results">
+        <% if (@game.player_score > @game.server_score) %>
+            <%= "YOU! Congratulations! You were awarded #{@game.player_score} points!" %>
+        <% elsif @game.player_score < @game.server_score %>
+            <%= "The computer :( Better luck next time!" %>
+        <% else %>
+            <%= "IT'S A TIE! No points were awarded." %>
+        <% end %>
+    </p>
+<% end %>
 
-
-<br><br><hr><br><br>
-<h2>Scores for this game</h2><br>
-<h3>Goal Score: <%= @game.goal_score %></h3>
-<h3><%= @current_player.username %>'s Score: <%= @game.player_score %></h3>
-<h3>Computer's Score: <%= @game.server_score %></h3>
-<br>
-<br><br><hr><br><br>
-<h2>Start a New Game</h2>
+<br><br><br>
 <%= form_with scope: :game, url: games_path, local: true do |form| %>
-    <%= hidden_field_tag(:id, @current_player.id) %>
+    <%= hidden_field_tag(:id, current_player.id) %>
     <p>
-      <%= form.submit :'Start new Game'%>
+      <%= form.submit :'Start new Game', :class => "button" %>
     </p>
 <% end %>

@@ -27,35 +27,7 @@ class PlayersController < ApplicationController
         @player.gems = 0
 
         # create new Ruby 'Player' object and 'fill' it with the default bag contents
-        @player.bag_desc = "{
-            \"0\":{
-               \"item\":\":coin\",
-               \"denomination\":0.25
-            },
-            \"1\":{
-               \"item\":\":coin\",
-               \"denomination\":0.25
-            },
-            \"2\":{
-               \"item\":\":coin\",
-               \"denomination\":0.25
-            },
-            \"3\":{
-               \"item\":\":die\",
-               \"sides\":6,
-               \"colour\":\"white\"
-            },
-            \"4\":{
-               \"item\":\":die\",
-               \"sides\":6,
-               \"colour\":\"white\"
-            },
-            \"5\":{
-               \"item\":\":die\",
-               \"sides\":6,
-               \"colour\":\"white\"
-            }
-         }"
+        @player.bag_desc = "{\"0\":{\"item\":\":coin\",\"denomination\":0.25},\"1\":{\"item\":\":coin\",\"denomination\":0.25},\"2\":{\"item\":\":coin\",\"denomination\":0.25},\"3\":{\"item\":\":die\",\"sides\":6,\"colour\":\"white\"},\"4\":{\"item\":\":die\",\"sides\":6,\"colour\":\"white\"},\"5\":{\"item\":\":die\",\"sides\":6,\"colour\":\"white\"}}"
 
         if @player.save
             redirect_to @player
